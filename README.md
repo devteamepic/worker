@@ -1,0 +1,2 @@
+# worker
+Python RabbitMQ client
