@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package rails_api;
+
+message Document {
+  int32 id = 1;
+  string name = 2;
+  string mime = 3;
+  double size = 4;
+  string file = 5;
+}
