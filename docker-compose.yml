@@ -1,0 +1,21 @@
+version: '2'
+
+networks:
+  rails:
+    driver: bridge
+
+services:
+  rabbitmq:
+    restart: always
+    image: 'bitnami/rabbitmq:latest'
+    networks:
+      - rails
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+  worker:
+    restart: always
+    hostname: "rabbitmq"
+    image: 'paydaylight/worker'
+    networks:
+      - rails
