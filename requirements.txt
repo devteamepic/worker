@@ -1,2 +1,4 @@
 protobuf
 pika
+bert-serving-server
+bert-serving-client

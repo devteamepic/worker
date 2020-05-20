@@ -1,4 +1,4 @@
-version: '2'
+version: '3'
 
 networks:
   rails:
@@ -6,16 +6,32 @@ networks:
 
 services:
   rabbitmq:
-    restart: always
     image: 'bitnami/rabbitmq:latest'
+    hostname: "rabbitmq"
     networks:
       - rails
     ports:
       - "5672:5672"
       - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
   worker:
-    restart: always
-    hostname: "rabbitmq"
-    image: 'paydaylight/worker'
+    build: .
+    depends_on:
+      - rabbitmq
+    links:
+      - rabbitmq
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
+    restart: on-failure
+    image: 'worker'
     networks:
       - rails
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:15672"]
+      interval: 30s
+      timeout: 10s
+      retries: 5

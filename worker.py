@@ -1,8 +1,13 @@
 import pika
 from proto_types_pb2 import Document
+import os
 import utils
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='rabbitmq'))
+print('HUY')
+pika.credentials.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
+                                  os.environ['RABBITMQ_DEFAULT_PASS'], erase_on_connect=False)
+connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['AMQP_URL']))
+
 channel = connection.channel()
 
 channel.queue_declare(queue='documents_queue', durable=True)
