@@ -3,7 +3,8 @@ from proto_types_pb2 import Document
 import os
 import utils
 
-print('HUY')
+print('HUY', os.environ['AMQP_URL'], os.environ['RABBITMQ_DEFAULT_USER'],
+                                  os.environ['RABBITMQ_DEFAULT_PASS'])
 pika.credentials.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
                                   os.environ['RABBITMQ_DEFAULT_PASS'], erase_on_connect=False)
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['AMQP_URL']))
