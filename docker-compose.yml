@@ -7,21 +7,29 @@ networks:
 services:
   rabbitmq:
     image: 'bitnami/rabbitmq:latest'
+#    build: ./rabbitmq
     hostname: "rabbitmq"
     networks:
       - rails
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#    ports:
+#      - 15672
+#      - '4369:4369'
+#      - '5677:5677'
+#      - '5673:5673'
     environment:
-      RABBITMQ_USER: rabbitmq
-      RABBITMQ_PASSWORD: rabbitmq
+      - RABBITMQ_USER=rabbitmq
+      - RABBITMQ_PASSWORD=rabbitmq
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    volumes:
+    - ./rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+    - /opt/bitnami/rabbitmq/etc/rabbitmq:/var/lib/rabbitmq
   worker:
     build: .
     depends_on:
       - rabbitmq
-    links:
-      - rabbitmq
+#    links:
+#      - rabbitmq
     environment:
       AMQP_URL: 'rabbitmq'
       RABBITMQ_DEFAULT_USER: rabbitmq
@@ -30,8 +38,3 @@ services:
     image: 'worker'
     networks:
       - rails
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:15672"]
-      interval: 30s
-      timeout: 10s
-      retries: 5
