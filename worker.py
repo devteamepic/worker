@@ -1,11 +1,9 @@
 import pika
 from pika.exceptions import AMQPConnectionError
-from proto_types_pb2 import Document
+from proto_types_pb2 import Document, DocumentsSubmission
 import os
 import utils
 
-print('HUY', os.environ['AMQP_URL'], os.environ['RABBITMQ_DEFAULT_USER'],
-                                  os.environ['RABBITMQ_DEFAULT_PASS'])
 creds = pika.credentials.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
                                   os.environ['RABBITMQ_DEFAULT_PASS'], erase_on_connect=False)
 
@@ -21,9 +19,9 @@ print(' [*] Waiting for messages. To exit press CTRL+C')
 
 
 def callback(ch, method, properties, body):
-    doc = Document()
-    doc.ParseFromString(body)
-    #utils.download(doc.file)
+    submission = DocumentsSubmission()
+    submission.ParseFromString(body)
+    print(submission.abstract)
     # TODO
     ch.basic_ack(delivery_tag=method.delivery_tag)
 

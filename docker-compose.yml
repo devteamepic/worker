@@ -6,24 +6,32 @@ networks:
 
 services:
   rabbitmq:
-    image: 'bitnami/rabbitmq:latest'
+#    image: 'bitnami/rabbitmq:latest'
+    image: "rabbitmq:3-management"
     hostname: "rabbitmq"
     networks:
       - rails
     environment:
       RABBITMQ_VHOST: "/"
       RABBITMQ_NODE_NAME: rabbit@localhost
-    volumes:
-    - ./rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
-    - /opt/bitnami/rabbitmq/etc/rabbitmq:/var/lib/rabbitmq
+      RABBITMQ_DEFAULT_USER: "rabbitmq"
+      RABBITMQ_DEFAULT_PASS: "rabbitmq"
+      RABBITMQ_DEFAULT_VHOST: "/"
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+#    volumes:
+#    - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
+#    - ./rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
+#    - /opt/bitnami/rabbitmq/etc/rabbitmq:/var/lib/rabbitmq
   worker:
     build: .
     depends_on:
       - rabbitmq
     environment:
       AMQP_URL: 'rabbitmq'
-      RABBITMQ_DEFAULT_USER: user
-      RABBITMQ_DEFAULT_PASS: bitnami
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: rabbitmq
     restart: on-failure
     image: 'worker'
     networks:

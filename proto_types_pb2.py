@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='proto_types.proto',
   package='rails_api',
   syntax='proto3',
-  serialized_pb=_b('\n\x11proto_types.proto\x12\trails_api\"N\n\x08\x44ocument\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04mime\x18\x03 \x01(\t\x12\x0c\n\x04size\x18\x04 \x01(\x01\x12\x0c\n\x04\x66ile\x18\x05 \x01(\tb\x06proto3')
+  serialized_pb=_b('\n\x11proto_types.proto\x12\trails_api\"N\n\x08\x44ocument\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0c\n\x04mime\x18\x03 \x01(\t\x12\x0c\n\x04size\x18\x04 \x01(\x01\x12\x0c\n\x04\x66ile\x18\x05 \x01(\t\"\x8e\x01\n\x13\x44ocumentsSubmission\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x10\n\x08\x61\x62stract\x18\x02 \x01(\t\x12\x35\n\x06status\x18\x03 \x01(\x0b\x32%.rails_api.DocumentsSubmission.Status\x1a\"\n\x06Status\x12\n\n\x02id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\tb\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -84,7 +84,92 @@ _DOCUMENT = _descriptor.Descriptor(
   serialized_end=110,
 )
 
+
+_DOCUMENTSSUBMISSION_STATUS = _descriptor.Descriptor(
+  name='Status',
+  full_name='rails_api.DocumentsSubmission.Status',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='rails_api.DocumentsSubmission.Status.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='name', full_name='rails_api.DocumentsSubmission.Status.name', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=221,
+  serialized_end=255,
+)
+
+_DOCUMENTSSUBMISSION = _descriptor.Descriptor(
+  name='DocumentsSubmission',
+  full_name='rails_api.DocumentsSubmission',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='id', full_name='rails_api.DocumentsSubmission.id', index=0,
+      number=1, type=5, cpp_type=1, label=1,
+      has_default_value=False, default_value=0,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='abstract', full_name='rails_api.DocumentsSubmission.abstract', index=1,
+      number=2, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+    _descriptor.FieldDescriptor(
+      name='status', full_name='rails_api.DocumentsSubmission.status', index=2,
+      number=3, type=11, cpp_type=10, label=1,
+      has_default_value=False, default_value=None,
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      options=None),
+  ],
+  extensions=[
+  ],
+  nested_types=[_DOCUMENTSSUBMISSION_STATUS, ],
+  enum_types=[
+  ],
+  options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=113,
+  serialized_end=255,
+)
+
+_DOCUMENTSSUBMISSION_STATUS.containing_type = _DOCUMENTSSUBMISSION
+_DOCUMENTSSUBMISSION.fields_by_name['status'].message_type = _DOCUMENTSSUBMISSION_STATUS
 DESCRIPTOR.message_types_by_name['Document'] = _DOCUMENT
+DESCRIPTOR.message_types_by_name['DocumentsSubmission'] = _DOCUMENTSSUBMISSION
 
 Document = _reflection.GeneratedProtocolMessageType('Document', (_message.Message,), dict(
   DESCRIPTOR = _DOCUMENT,
@@ -92,6 +177,21 @@ Document = _reflection.GeneratedProtocolMessageType('Document', (_message.Messag
   # @@protoc_insertion_point(class_scope:rails_api.Document)
   ))
 _sym_db.RegisterMessage(Document)
+
+DocumentsSubmission = _reflection.GeneratedProtocolMessageType('DocumentsSubmission', (_message.Message,), dict(
+
+  Status = _reflection.GeneratedProtocolMessageType('Status', (_message.Message,), dict(
+    DESCRIPTOR = _DOCUMENTSSUBMISSION_STATUS,
+    __module__ = 'proto_types_pb2'
+    # @@protoc_insertion_point(class_scope:rails_api.DocumentsSubmission.Status)
+    ))
+  ,
+  DESCRIPTOR = _DOCUMENTSSUBMISSION,
+  __module__ = 'proto_types_pb2'
+  # @@protoc_insertion_point(class_scope:rails_api.DocumentsSubmission)
+  ))
+_sym_db.RegisterMessage(DocumentsSubmission)
+_sym_db.RegisterMessage(DocumentsSubmission.Status)
 
 
 # @@protoc_insertion_point(module_scope)

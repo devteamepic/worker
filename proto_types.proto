@@ -2,10 +2,24 @@ syntax = "proto3";
 
 package rails_api;
 
+// protoc --proto_path=. --python_out=. ./proto_types.proto
+
 message Document {
   int32 id = 1;
   string name = 2;
   string mime = 3;
   double size = 4;
   string file = 5;
+}
+
+message DocumentsSubmission {
+  int32 id = 1;
+  string abstract = 2;
+
+  message Status {
+    int32 id = 1;
+    string name = 2;
+  }
+
+  Status status = 3;
 }
