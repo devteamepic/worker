@@ -6,7 +6,6 @@ networks:
 
 services:
   rabbitmq:
-#    image: 'bitnami/rabbitmq:latest'
     image: "rabbitmq:3-management"
     hostname: "rabbitmq"
     networks:
@@ -20,10 +19,7 @@ services:
     ports:
       - "15672:15672"
       - "5672:5672"
-#    volumes:
-#    - "./enabled_plugins:/etc/rabbitmq/enabled_plugins"
-#    - ./rabbitmq.conf:/opt/bitnami/rabbitmq/etc/rabbitmq/rabbitmq.conf
-#    - /opt/bitnami/rabbitmq/etc/rabbitmq:/var/lib/rabbitmq
+    restart: always
   worker:
     build: .
     depends_on:
@@ -32,7 +28,15 @@ services:
       AMQP_URL: 'rabbitmq'
       RABBITMQ_DEFAULT_USER: rabbitmq
       RABBITMQ_DEFAULT_PASS: rabbitmq
-    restart: on-failure
+    restart: always
     image: 'worker'
     networks:
       - rails
+  bert-server:
+    image: bert
+    build: ./bert
+    networks:
+      - rails
+    ports:
+      - "8125:8125"
+    restart: on-failure
