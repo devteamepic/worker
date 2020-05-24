@@ -25,7 +25,10 @@ def callback(ch, method, properties, body):
     submission.ParseFromString(body)
     print(submission.abstract)
     bert_client = BertClient(ip="bert-server")
-    print(bert_client.encode([submission.abstract]))
+
+    # works fine
+    # print(bert_client.encode([submission.abstract]))
+    
     # TODO
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
