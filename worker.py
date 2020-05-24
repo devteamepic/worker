@@ -1,11 +1,13 @@
 import pika
-from pika.exceptions import AMQPConnectionError
 from proto_types_pb2 import Document, DocumentsSubmission
+from bert_serving.client import BertClient
 import os
 import utils
 
-creds = pika.credentials.PlainCredentials(os.environ['RABBITMQ_DEFAULT_USER'],
-                                  os.environ['RABBITMQ_DEFAULT_PASS'], erase_on_connect=False)
+creds = pika.credentials.PlainCredentials(
+    os.environ['RABBITMQ_DEFAULT_USER'],
+    os.environ['RABBITMQ_DEFAULT_PASS'], erase_on_connect=False
+)
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host=os.environ['AMQP_URL'],
                                                                credentials=creds))
@@ -22,6 +24,8 @@ def callback(ch, method, properties, body):
     submission = DocumentsSubmission()
     submission.ParseFromString(body)
     print(submission.abstract)
+    bert_client = BertClient(ip="bert-server")
+    print(bert_client.encode([submission.abstract]))
     # TODO
     ch.basic_ack(delivery_tag=method.delivery_tag)
 

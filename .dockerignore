@@ -1,0 +1,10 @@
+/venv
+/uploads
+/share
+/lib
+/lib64
+/bert
+/log
+/__pycache__
+/rabbitmq.config
+.idea
