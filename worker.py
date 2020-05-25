@@ -2,7 +2,13 @@ import pika
 from proto_types_pb2 import Document, DocumentsSubmission
 from bert_serving.client import BertClient
 import os
+import sseclient
+import requests
+import json
 import utils
+
+
+GET_PROF_ABSTRACTS = 'http://localhost:3000/worker_api/v1/submissions'
 
 creds = pika.credentials.PlainCredentials(
     os.environ['RABBITMQ_DEFAULT_USER'],
@@ -21,10 +27,20 @@ print(' [*] Waiting for messages. To exit press CTRL+C')
 
 
 def callback(ch, method, properties, body):
+
     submission = DocumentsSubmission()
     submission.ParseFromString(body)
     print(submission.abstract)
+
+    abstracts_response = requests.get(GET_PROF_ABSTRACTS,
+                                      stream=True,
+                                      headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']})
+    client = sseclient.SSEClient(abstracts_response)
+    for event in client.events():
+        print(json.loads(event.data))
+
     bert_client = BertClient(ip="bert-server")
+
 
     # works fine
     # print(bert_client.encode([submission.abstract]))

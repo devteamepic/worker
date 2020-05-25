@@ -15,4 +15,4 @@ RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT ["/app/entrypoint.sh"]
 CMD []
-HEALTHCHECK --timeout=5s CMD curl -f http://localhost:8125/status/server || exit 1
+#HEALTHCHECK --timeout=5s CMD curl -f http://localhost:8125/status/server || exit 1
