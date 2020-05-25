@@ -8,7 +8,7 @@ import json
 import utils
 
 
-GET_PROF_ABSTRACTS = 'http://localhost:3000/worker_api/v1/submissions'
+GET_PROF_ABSTRACTS = os.environ['GET_PROFS_SUBMISSIONS_URL']
 
 creds = pika.credentials.PlainCredentials(
     os.environ['RABBITMQ_DEFAULT_USER'],
