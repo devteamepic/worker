@@ -2,7 +2,7 @@ FROM python:3
 
 WORKDIR ./worker
 
-RUN curl https://drive.google.com/open?id=1V_WMWXnaNs350MSiNJEihfEafujYqIlp --output submissions.json
+RUN curl https://unifound.me/files/submissions.json --output submissions.json
 
 COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt

@@ -33,15 +33,6 @@ def callback(ch, method, properties, body):
 
     bert_client = BertClient(ip="bert-server")
 
-    abstracts_response = requests.get(ENCODED_ABSTRACTS_URL,
-                                      headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']})
-    for data in abstracts_response.json():
-        pass
-
-    # works fine
-    # print(bert_client.encode([submission.abstract]))
-    
-    # TODO
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
