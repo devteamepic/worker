@@ -7,8 +7,7 @@ import requests
 import json
 import utils
 
-
-GET_PROF_ABSTRACTS = os.environ['GET_PROFS_SUBMISSIONS_URL']
+ENCODED_ABSTRACTS_URL = os.environ['ENCODED_ABSTRACTS_URL']
 
 creds = pika.credentials.PlainCredentials(
     os.environ['RABBITMQ_DEFAULT_USER'],
@@ -32,15 +31,12 @@ def callback(ch, method, properties, body):
     submission.ParseFromString(body)
     print(submission.abstract)
 
-    abstracts_response = requests.get(GET_PROF_ABSTRACTS,
-                                      stream=True,
-                                      headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']})
-    client = sseclient.SSEClient(abstracts_response)
-    for event in client.events():
-        print(json.loads(event.data))
-
     bert_client = BertClient(ip="bert-server")
 
+    abstracts_response = requests.get(ENCODED_ABSTRACTS_URL,
+                                      headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']})
+    for data in abstracts_response.json():
+        pass
 
     # works fine
     # print(bert_client.encode([submission.abstract]))
