@@ -4,6 +4,7 @@ import os
 import sseclient
 import requests
 import json
+from proto_types_pb2 import Document, DocumentsSubmission
 
 
 GET_PROF_ABSTRACTS = os.environ['GET_PROFS_SUBMISSIONS_URL']
@@ -25,15 +26,15 @@ print(' [*] Waiting for messages. To exit press CTRL+C')
 def callback(ch, method, properties, body):
     bert_client = BertClient(ip="bert-server")
     print("starting request to backend")
-    for data in json.loads(body):
-        print(data)
-        print(data['id'])
-        encoded_abstract = bert_client.encode([data['abstract']])
-        res = requests.post(f"{GET_PROF_ABSTRACTS}/{data['id']}/encoded",
-                      headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']},
-                      json={'tokens_array': encoded_abstract.tolist()})
-        print(res)
-
+    submission = DocumentsSubmission()
+    submission.ParseFromString(body)
+    print(submission)
+    print(submission.id)
+    encoded_abstract = bert_client.encode([submission.abstract])
+    res = requests.post(f"{GET_PROF_ABSTRACTS}/{submission.id}/encoded",
+                        headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']},
+                        json={'tokens_array': encoded_abstract.tolist()})
+    print(res)
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
 
