@@ -26,17 +26,14 @@ def callback(ch, method, properties, body):
     bert_client = BertClient(ip="bert-server")
     print("starting request to backend")
     abstracts_response = requests.get(GET_PROF_ABSTRACTS,
-                                      stream=True,
                                       headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']})
-    client = sseclient.SSEClient(abstracts_response)
-    for event in client.events():
-        data = json.loads(event.data)['professor_submission']
+    for data in abstracts_response.json():
         if data:
             print(data['id'])
             encoded_abstract = bert_client.encode([data['abstract']])
             requests.post(f"{GET_PROF_ABSTRACTS}/{data['id']}/encoded",
                           headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']},
-                          json={'tokens_array': encoded_abstract})
+                          json={'tokens_array': encoded_abstract.tolist()})
 
     ch.basic_ack(delivery_tag=method.delivery_tag)
 
