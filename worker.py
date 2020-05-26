@@ -49,6 +49,7 @@ abstract = np.asarray(bert_client.encode(test, show_tokens=False, is_tokenized=F
 
 cos_sim = cosine_similarity(abstract.reshape(1,-1), np.asarray(data[0]['encoded_abstract']['tokens'], dtype=np.float32).reshape(1,-1))
 
+
 def callback(ch, method, properties, body):
 
     submission = DocumentsSubmission()
@@ -76,7 +77,7 @@ def callback(ch, method, properties, body):
     
     result = result[:5]
 
-    res = requests.post(f"worker_api/v1/submissions/{submission.id}",
+    res = requests.post(f"https://unifound.me/worker_api/v1/submissions/{submission.id}",
                         headers={f"{os.environ['SECRET_HEADER']}": os.environ['SECRET_TOKEN']},
                         json={'professor_submission_ids': result})
 
