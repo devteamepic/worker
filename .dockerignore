@@ -8,3 +8,5 @@
 /__pycache__
 /rabbitmq.config
 .idea
+encoder.py
+/encoder

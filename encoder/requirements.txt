@@ -1,0 +1,5 @@
+protobuf
+pika
+bert-serving-client
+sseclient-py
+requests
