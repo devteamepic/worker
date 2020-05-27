@@ -43,12 +43,11 @@ channel.queue_declare(queue='documents_queue', durable=True)
 
 print(' [*] Waiting for messages. To exit press CTRL+C')
 
-bert_client = BertClient(ip="bert-server")
-
-abstract = np.asarray(bert_client.encode(test, show_tokens=False, is_tokenized=False))
-
-cos_sim = cosine_similarity(abstract.reshape(1,-1), np.asarray(data[0]['encoded_abstract']['tokens'], dtype=np.float32).reshape(1,-1))
-
+# bert_client = BertClient(ip="bert-server")
+#
+# abstract = np.asarray(bert_client.encode(test, show_tokens=False, is_tokenized=False))
+#
+# cos_sim = cosine_similarity(abstract.reshape(1,-1), np.asarray(data[0]['encoded_abstract']['tokens'], dtype=np.float32).reshape(1,-1))
 
 def callback(ch, method, properties, body):
 
@@ -61,7 +60,7 @@ def callback(ch, method, properties, body):
 
     bert_client = BertClient(ip="bert-server")
 
-    abstract = bert_client.encode(submission.abstract, show_tokens=False, is_tokenized=False)
+    abstract = bert_client.encode([submission.abstract], show_tokens=False, is_tokenized=False)
 
     print(abstract)
 
